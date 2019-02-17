@@ -1,0 +1,121 @@
+<?php
+if(isset($_POST['submit'])){
+ $email_to = "sbudhathoki789@gmail.com";
+    $email_subject = "Message for Suraj Budhathoki";
+}
+
+function died($error) {
+        // your error code can go here
+        echo "We are very sorry, but there were error(s) found with the form you submitted. ";
+        echo "These errors appear below.<br /><br />";
+        echo $error."<br /><br />";
+        echo "Please go back and fix these errors.<br /><br />";
+        die();
+    }
+
+// validation expected data exists
+    if(!isset($_POST['fullname']) ||
+        !isset($_POST['email']) ||
+        !isset($_POST['phonenumber']) ||
+        !isset($_POST['comments'])) {
+        died('We are sorry, but there appears to be a problem with the form you submitted.');       
+    }
+    
+    $full_name = $_POST['fullname'];
+    $email_from = $_POST['email']; // required
+    $telephone = $_POST['phonenumber']; // not required
+    $comments = $_POST['comments']; // required
+
+$email_message = "Form details below.\n\n";
+ 
+     
+    function clean_string($string) {
+      $bad = array("content-type","bcc:","to:","cc:","href");
+      return str_replace($bad,"",$string);
+    }
+
+     
+    $email_message .= "Full Name: ".clean_string($full_name)."\n";
+    $email_message .= "Email: ".clean_string($email_from)."\n";
+    $email_message .= "Telephone: ".clean_string($telephone)."\n";
+    $email_message .= "Comments: ".clean_string($comments)."\n";
+
+// create email headers
+$headers = 'From: '.$email_from."\r\n".
+'Reply-To: '.$email_from."\r\n" .
+'X-Mailer: PHP/' . phpversion();
+@mail($email_to, $email_subject, $email_message, $headers);  
+?>
+
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Contact Me</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Sedgwick+Ave" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Alegreya" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Alegreya|Monoton" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Alegreya|Cormorant+Upright:700|Monoton" rel="stylesheet">
+    </head>
+<body>
+    <div>
+    <ul >
+  <li><a href="../index.html">HOME</a></li>
+  <li><a href="#resume">RESUME</a></li>
+  <li><a href="#contact">CONTACT ME</a></li>
+  
+</ul>
+    </div>
+    
+     <div class="backImg">
+        <div class="contactform">
+           <h2>Contact Form</h2>
+            
+        <form action="send_form_email.php" method="post" name="formcontact" onsubmit="return validateform()">
+    <label for="fname">Full Name</label> 
+    <input type="text" id="fname" name="fullname" placeholder="Your name..">
+                
+      <label for="lname">Phone Number</label><br>
+    <input type="number" id="pnumber" name="phonenumber" placeholder="000 000 0000"><br>            
+
+        <label for="lemail">Email Address</label><br>
+    <input type="text" id="pemail" name="email" placeholder="example@gmail.com"><br>
+                
+    <label for="subject">Subject</label><br>            
+    <textarea id="subject" name="comments" placeholder="Write something.." style="height:200px"></textarea><br>
+
+    <input type="submit" value="Submit"><br>
+  </form>
+
+<script>
+function validateForm() {
+    var x = document.forms["formcontact"]["fullname"].value;
+     var y = document.forms["formcontact"]["phonenumber"].value;
+     var z = document.forms["formcontact"]["email"].value;
+     var a = document.forms["formcontact"]["comments"].value;
+    
+    if (x == "" || y="" || z=""|| a="") {
+        alert("Please fill all the fields first");
+        return false;
+    }
+    
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formcontact.email.value))
+  {
+    return true;
+  }else{
+    alert("You have entered an invalid email address!");
+    return false;
+  }
+    return true;
+}
+    
+</script>
+         
+         </div> 
+    </div>
+    </body>
+</html>
+
